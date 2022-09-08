@@ -15,14 +15,13 @@ char *error_exit_shell(char **args)
 	ver_str = aux_itoa(count);
 	if (ver_str == 0)
 		return (NULL);
-	lenght = _strlen(prgname) + _strlen(ver_str) + _strlen(args[0]) + 30;
+	lenght = _strlen(ver_str) + _strlen(args[0]) + 30;
 	error = malloc(sizeof(char) * (lenght + 1));
 	if (error == 0)
 	{
 		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, prgname);
 	_strcat(error, ": ");
 	_strcat(error, ver_str);
 	_strcat(error, ": command failed to execute");
@@ -46,14 +45,13 @@ char *error_syntax(char **args)
 	ver_str = aux_itoa(count);
 	if (ver_str == 0)
 		return (NULL);
-	lenght = _strlen(prgname) + _strlen(ver_str) + _strlen(args[0]) + 32;
+	lenght = _strlen(ver_str) + _strlen(args[0]) + 32;
 	error = malloc(sizeof(char) * (lenght + 1));
 	if (error == 0)
 	{
 		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, prgname);
 	_strcat(error, ": ");
 	_strcat(error, ver_str);
 	_strcat(error, ": syntax error: ");
@@ -77,14 +75,13 @@ char *error_env(char **args)
 	ver_str = aux_itoa(count);
 	if (ver_str == 0)
 		return (NULL);
-	length = _strlen(prgname) + _strlen(ver_str) + _strlen(args[0]) + 32;
+	length = _strlen(ver_str) + _strlen(args[0]) + 32;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
 		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, prgname);
 	_strcat(error, ": ");
 	_strcat(error, ver_str);
 	_strcat(error, ": ");
@@ -108,14 +105,13 @@ char *error_permission(char **args)
 	ver_str = aux_itoa(count);
 	if (ver_str == 0)
 		return (NULL);
-	length = _strlen(prgname) + _strlen(ver_str) + _strlen(args[0]) + 27;
+	length = _strlen(ver_str) + _strlen(args[0]) + 27;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
 		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, prgname);
 	_strcat(error, ": ");
 	_strcat(error, ver_str);
 	_strcat(error, ": ");

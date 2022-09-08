@@ -15,14 +15,13 @@ char *error_not_found(char **args)
 	ver_str = aux_itoa(count);
 	if (ver_str == 0)
 		return (NULL);
-	length = _strlen(prgname) + _strlen(ver_str) + _strlen(args[0]) + 16;
+	length = _strlen(ver_str) + _strlen(args[0]) + 16;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
 		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, prgname);
 	_strcat(error, ": ");
 	_strcat(error, ver_str);
 	_strcat(error, ": ");
@@ -41,7 +40,7 @@ char *error_get_alias(char **args)
 	int length;
 	char *error;
 
-	length = _strlen(prgname) +  _strlen(args[0]) + 14;
+	length =  _strlen(args[0]) + 14;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
@@ -70,14 +69,13 @@ char *error_get_cd(char **args)
 
 	if (args[0][0] == '-')
 		args[0][2] = '\0';
-	length = _strlen(prgname) + _strlen(ver_str) + _strlen(args[0]) + 20;
+	length = _strlen(ver_str) + _strlen(args[0]) + 20;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
 		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, prgname);
 	_strcat(error, ": ");
 	_strcat(error, ver_str);
 	if (args[0][0] == '-')

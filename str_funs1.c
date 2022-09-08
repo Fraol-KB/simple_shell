@@ -8,8 +8,8 @@
  */
 char *_strcat(char *dest, const char *src)
 {
-	char i;
-	char j;
+	int i;
+	int j;
 
 	for (i = 0; dest[i] != '\0'; i++)
 		;
@@ -60,6 +60,7 @@ int _strcmp(char *s1, char *s2)
 	}
 	return (0);
 }
+
 /**
  * _strchr - locates a character in a string,
  * @s: string.
