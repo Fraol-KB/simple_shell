@@ -1,82 +1,63 @@
 #include "main.h"
 
 /**
- * _strcat - concatenate two strings
- * @dest: char pointer the dest of the copied str
- * @src: const char pointer the source of str
- * Return: the dest
+ * _strdup - duplicates a str in the heap memory.
+ * @s: Type char pointer str
+ * Return: duplicated str
  */
-char *_strcat(char *dest, const char *src)
+char *_strdup(const char *s)
 {
-	int i;
-	int j;
+	char *new;
+	size_t len;
 
-	for (i = 0; dest[i] != '\0'; i++)
-		;
-
-	for (j = 0; src[j] != '\0'; j++)
-	{
-		dest[i] = src[j];
-		i++;
-	}
-
-	dest[i] = '\0';
-	return (dest);
+	len = _strlen(s);
+	new = malloc(sizeof(char) * (len + 1));
+	if (new == NULL)
+		return (NULL);
+	_memcpy(new, s, len + 1);
+	return (new);
 }
+
 /**
- * *_strcpy - Copies the string pointed to by src.
- * @dest: Type char pointer the dest of the copied str
- * @src: Type char pointer the source of str
- * Return: the dest.
- */
-char *_strcpy(char *dest, char *src)
-{
-
-	size_t a;
-
-	for (a = 0; src[a] != '\0'; a++)
-	{
-		dest[a] = src[a];
-	}
-	dest[a] = '\0';
-
-	return (dest);
-}
-/**
- * _strcmp - Function that compares two strings.
- * @s1: type str compared
- * @s2: type str compared
+ * _strlen - Returns the lenght of a string.
+ * @s: Type char pointer
  * Return: Always 0.
  */
-int _strcmp(char *s1, char *s2)
-
+int _strlen(const char *s)
 {
-	int a;
+	int len;
 
-	for (a = 0; s1[a] != '\0' && s2[a] != '\0'; a++)
+	for (len = 0; s[len] != 0; len++)
 	{
-		if (s1[a] != s2[a])
-			return (s1[a] - s2[a]);
 	}
-	return (0);
+	return (len);
 }
 
 /**
- * _strchr - locates a character in a string,
- * @s: string.
- * @c: character.
- * Return: the pointer to the first occurrence of the character c.
+ * cmp_chars - compare chars of strings
+ * @str: input string.
+ * @delim: delimiter.
+ *
+ * Return: 1 if are equals, 0 if not.
  */
-char *_strchr(char *s, char c)
+int cmp_chars(char str[], const char *delim)
 {
-	unsigned int i = 0;
+	unsigned int i, j, k;
 
-	for (; *(s + i) != '\0'; i++)
-		if (*(s + i) == c)
-			return (s + i);
-	if (*(s + i) == c)
-		return (s + i);
-	return ('\0');
+	for (i = 0, k = 0; str[i]; i++)
+	{
+		for (j = 0; delim[j]; j++)
+		{
+			if (str[i] == delim[j])
+			{
+				k++;
+				break;
+			}
+		}
+	}
+	if (i == k)
+		return (1);
+	return (0);
 }
 
 /**
@@ -127,4 +108,22 @@ char *_strtok(char str[], const char *delim)
 	if (bool == 0) /*Str == Delim*/
 		return (NULL);
 	return (str_start);
+}
+
+/**
+ * _isdigit - defines if string passed is a number
+ *
+ * @s: input string
+ * Return: 1 if string is a number. 0 in other case.
+ */
+int _isdigit(const char *s)
+{
+	unsigned int i;
+
+	for (i = 0; s[i]; i++)
+	{
+		if (s[i] < 48 || s[i] > 57)
+			return (0);
+	}
+	return (1);
 }

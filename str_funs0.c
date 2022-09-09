@@ -1,66 +1,83 @@
 #include "main.h"
 
-
 /**
- * _strlen - Returns the lenght of a string.
- * @s: Type char pointer
+ * _strcat - concatenate two strings
+ * @dest: char pointer the dest of the copied str
+ * @src: const char pointer the source of str
+ * Return: the dest
+ */
+char *_strcat(char *dest, const char *src)
+{
+	int i;
+	int j;
+
+	for (i = 0; dest[i] != '\0'; i++)
+		;
+
+	for (j = 0; src[j] != '\0'; j++)
+	{
+		dest[i] = src[j];
+		i++;
+	}
+
+	dest[i] = '\0';
+	return (dest);
+}
+/**
+ * *_strcpy - Copies the string pointed to by src.
+ * @dest: Type char pointer the dest of the copied str
+ * @src: Type char pointer the source of str
+ * Return: the dest.
+ */
+char *_strcpy(char *dest, char *src)
+{
+
+	size_t a;
+
+	for (a = 0; src[a] != '\0'; a++)
+	{
+		dest[a] = src[a];
+	}
+	dest[a] = '\0';
+
+	return (dest);
+}
+/**
+ * _strcmp - Function that compares two strings.
+ * @s1: type str compared
+ * @s2: type str compared
  * Return: Always 0.
  */
-int _strlen(const char *s)
+int _strcmp(char *s1, char *s2)
 {
-	int len;
+	int i;
 
-	for (len = 0; s[len] != 0; len++)
-	{
-	}
-	return (len);
-}
+	for (i = 0; s1[i] == s2[i] && s1[i]; i++)
+		;
 
-/**
- * cmp_chars - compare chars of strings
- * @str: input string.
- * @delim: delimiter.
- *
- * Return: 1 if are equals, 0 if not.
- */
-int cmp_chars(char str[], const char *delim)
-{
-	unsigned int i, j, k;
-
-	for (i = 0, k = 0; str[i]; i++)
-	{
-		for (j = 0; delim[j]; j++)
-		{
-			if (str[i] == delim[j])
-			{
-				k++;
-				break;
-			}
-		}
-	}
-	if (i == k)
+	if (s1[i] > s2[i])
 		return (1);
+	if (s1[i] < s2[i])
+		return (-1);
 	return (0);
 }
-
 /**
- * _strdup - duplicates a str in the heap memory.
- * @s: Type char pointer str
- * Return: duplicated str
+ * _strchr - locates a character in a string,
+ * @s: string.
+ * @c: character.
+ * Return: the pointer to the first occurrence of the character c.
  */
-char *_strdup(const char *s)
+char *_strchr(char *s, char c)
 {
-	char *new;
-	size_t len;
+	unsigned int i = 0;
 
-	len = _strlen(s);
-	new = malloc(sizeof(char) * (len + 1));
-	if (new == NULL)
-		return (NULL);
-	_memcpy(new, s, len + 1);
-	return (new);
+	for (; *(s + i) != '\0'; i++)
+		if (*(s + i) == c)
+			return (s + i);
+	if (*(s + i) == c)
+		return (s + i);
+	return ('\0');
 }
-
 /**
  * _strspn - gets the length of a prefix substring.
  * @s: initial segment.

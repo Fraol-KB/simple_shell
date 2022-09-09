@@ -2,40 +2,111 @@
 
 /**
  * get_error - calls the error according the builtin, syntax or permission
- * @args: type pointer array of agrs
+ * @datash: data structure that contains arguments
  * @eval: error value
  * Return: error
  */
-int get_error(char **args, int eval)
+int get_error(data_shell *datash, int eval)
 {
 	char *error;
 
 	switch (eval)
 	{
-	case 1:
-		error = error_get_alias(args);
+	case -1:
+		error = error_env(datash);
+		break;
+	case 126:
+		error = error_path_126(datash);
+		break;
+	case 127:
+		error = error_not_found(datash);
 		break;
 	case 2:
-		error = error_env(args);
-		break;
-	case 3:
-		error = error_permission(args);
-		break;
-	case 4:
-		error = error_not_found(args);
-		break;
-	case 5:
-		error = error_get_cd(args);
-		break;
-	case 6:
-		error = error_syntax(args);
-		break;
-	case 7:
-		error = error_exit_shell(args);
+		if (_strcmp("exit", datash->args[0]) == 0)
+			error = error_exit_shell(datash);
+		else if (_strcmp("cd", datash->args[0]) == 0)
+			error = error_get_cd(datash);
 		break;
 	}
-	write(STDERR_FILENO, error, _strlen(error));
+
 	if (error)
+	{
+		write(STDERR_FILENO, error, _strlen(error));
 		free(error);
+	}
+
+	datash->status = eval;
 	return (eval);
 }
+
+/**
+ * error_get_cd - error message for cd command in get_cd
+ * @datash: data relevant (directory)
+ * Return: Error message
+ */
+char *error_get_cd(data_shell *datash)
+{
+	int length, len_id;
+	char *error, *ver_str, *msg;
+
+	ver_str = aux_itoa(datash->counter);
+	if (datash->args[1][0] == '-')
+	{
+		msg = ": Illegal option ";
+		len_id = 2;
+	}
+	else
+	{
+		msg = ": can't cd to ";
+		len_id = _strlen(datash->args[1]);
+	}
+
+	length = _strlen(datash->av[0]) + _strlen(datash->args[0]);
+	length += _strlen(ver_str) + _strlen(msg) + len_id + 5;
+	error = malloc(sizeof(char) * (length + 1));
+
+	if (error == 0)
+	{
+		free(ver_str);
+		return (NULL);
+	}
+
+	error = strcat_cd(datash, msg, error, ver_str);
+
+	free(ver_str);
+
+	return (error);
+}
+
+/**
+ * error_not_found - generic error message for command not found
+ * @datash: data relevant (counter, arguments)
+ * Return: Error message
+ */
+char *error_not_found(data_shell *datash)
+{
+	int length;
+	char *error;
+	char *ver_str;
+
+	ver_str = aux_itoa(datash->counter);
+	length = _strlen(datash->av[0]) + _strlen(ver_str);
+	length += _strlen(datash->args[0]) + 16;
+	error = malloc(sizeof(char) * (length + 1));
+	if (error == 0)
+	{
+		free(error);
+		free(ver_str);
+		return (NULL);
+	}
+	_strcpy(error, datash->av[0]);
+	_strcat(error, ": ");
+	_strcat(error, ver_str);
+	_strcat(error, ": ");
+	_strcat(error, datash->args[0]);
+	_strcat(error, ": not found\n");
+	_strcat(error, "\0");
+	free(ver_str);
+	return (error);
+}
+
